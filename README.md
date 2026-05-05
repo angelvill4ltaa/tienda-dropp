@@ -4,8 +4,6 @@ DROPP es una aplicación web ecommerce full stack desarrollada para simular una 
 
 Proyecto creado como parte de mi portafolio profesional para demostrar desarrollo frontend, backend y conexión con base de datos en un entorno real.
 
----
-
 ## Tecnologías Utilizadas
 
 ### Frontend
@@ -30,15 +28,11 @@ Proyecto creado como parte de mi portafolio profesional para demostrar desarroll
 * Git & GitHub
 * Visual Studio Code
 
----
-
 ## Estructura del Proyecto
 
 /client -> Frontend
 /server -> Backend
 MySQL -> Base de datos
-
----
 
 ## Instalación
 
@@ -64,8 +58,6 @@ npm install
 node index.js
 ```
 
----
-
 ## Funcionalidades
 
 * Catálogo dinámico de productos
@@ -76,10 +68,8 @@ node index.js
 * Libro de Reclamaciones digital
 * Diseño responsive moderno
 
----
-
 ## Autor
 
 Desarrollado por Angel Villalta
 
----
+
