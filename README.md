@@ -1,70 +1,77 @@
-# Getting Started with Create React App
+# DROPP - Aplicación Web Ecommerce
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+DROPP es una aplicación web ecommerce full stack desarrollada para simular una experiencia de compra moderna con autenticación de usuarios, carrito dinámico, checkout, procesamiento de órdenes y almacenamiento en base de datos. Proyecto creado como parte de mi portafolio para demostrar desarrollo frontend, backend y conexión con base de datos en un entorno real.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## Tecnologías Utilizadas
 
-### `npm start`
+### Frontend
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+* React.js
+* Tailwind CSS
+* React Router DOM
+* Context API
+* Lucide React 
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Backend
 
-### `npm test`
+* Node.js
+* Express.js
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Base de Datos
 
-### `npm run build`
+* MySQL
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Otras Herramientas
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+* Git & GitHub
+* Visual Studio Code
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+## Estructura del Proyecto
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+/client -> Frontend
+/server -> Backend
+MySQL -> Base de datos
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+---
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Instalación
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Clonar repositorio:
 
-## Learn More
+git clone https://github.com/angelvill4ltaa/tienda-dropp
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Frontend:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+cd client
+npm install
+npm start
 
-### Code Splitting
+Backend:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+cd server
+npm install
+node index.js
 
-### Analyzing the Bundle Size
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Funcionalidades
 
-### Making a Progressive Web App
+* Catálogo de productos
+* Sistema de autenticación de usuarios
+* Carrito de compras 
+* Checkout con validación de pago
+* Registro y procesamiento de órdenes
+* Libro de Reclamaciones 
+* Diseño responsive moderno
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+---
 
-### Advanced Configuration
+## Autor
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Desarrollado por Angel Villalta
 
-### Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
