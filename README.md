@@ -1,8 +1,6 @@
 # DROPP - Aplicación Web Ecommerce
 
-DROPP es una aplicación web ecommerce full stack desarrollada para simular una experiencia de compra moderna con autenticación de usuarios, carrito dinámico, checkout seguro, procesamiento de órdenes y almacenamiento en base de datos.
-
-Proyecto creado como parte de mi portafolio profesional para demostrar desarrollo frontend, backend y conexión con base de datos en un entorno real.
+DROPP es una aplicación web ecommerce full stack desarrollada para simular una experiencia de compra moderna. Proyecto creado como parte de mi portafolio profesional para demostrar desarrollo frontend, backend y conexión con base de datos en un entorno real.
 
 ## Tecnologías Utilizadas
 
@@ -23,16 +21,10 @@ Proyecto creado como parte de mi portafolio profesional para demostrar desarroll
 
 * MySQL
 
-### Otras Herramientas
-
-* Git & GitHub
-* Visual Studio Code
-
 ## Estructura del Proyecto
 
-/client -> Frontend
-/server -> Backend
-MySQL -> Base de datos
+* client -> Frontend
+* server -> Backend
 
 ## Instalación
 
