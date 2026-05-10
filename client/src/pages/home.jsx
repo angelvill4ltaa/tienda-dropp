@@ -1,21 +1,38 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ProductCard from "../components/productCard";
-import { getProductos } from "../services/api";
-import Footer from "../components/Footer";
 import FeaturedProducts from "../components/FeaturedProducts";
-import { Truck, ShieldCheck, BadgeCheck } from "lucide-react";
+import Footer from "../components/Footer";
+import { getProductos } from "../services/api";
 
 const Home = () => {
   const [productos, setProductos] = useState([]);
   const [current, setCurrent] = useState(0);
+
   const navigate = useNavigate();
 
   const images = [
-    "https://i.pinimg.com/736x/d2/a8/43/d2a843f34db1f1b14dce71a37ddceb93.jpg",
-    "https://i.pinimg.com/736x/b9/eb/54/b9eb542f8fb50377d2cd493be49dc50e.jpg",
-    "https://i.pinimg.com/1200x/58/5f/00/585f002a140301f18d4ae5e2e06785af.jpg",
-    "https://i.pinimg.com/1200x/ab/d4/a5/abd4a587fe158f38a1e8cc3d21522a2a.jpg"
+    "https://i.pinimg.com/1200x/09/ba/02/09ba02c51d9ce260bb5acceb54d4c38f.jpg",
+    "https://i.pinimg.com/1200x/0b/09/de/0b09deb222604295dea07401766408b8.jpg",
+    "https://i.pinimg.com/736x/b5/65/7e/b5657e5d7ae3a91f9a45f36d444c23c1.jpg",
+  ];
+
+  const categories = [
+    {
+      name: "Zapatillas",
+      img: "https://i.pinimg.com/736x/26/55/30/2655300d0ff3a733db0e5614a949ddde.jpg",
+      url: "/zapatillas",
+    },
+    {
+      name: "Ropa",
+      img: "https://i.pinimg.com/736x/b4/c9/88/b4c98855bf6f66434bec7670eaf51f8c.jpg",
+      url: "/ropa",
+    },
+    {
+      name: "Accesorios",
+      img: "https://i.pinimg.com/736x/1c/f7/28/1cf7289e21823d34ca48b1b5d7836272.jpg",
+      url: "/accesorios",
+    },
   ];
 
   useEffect(() => {
@@ -28,73 +45,74 @@ const Home = () => {
     }, 5000);
 
     return () => clearInterval(interval);
-  }, []);
-
-  const categories = [
-    {
-      name: "Zapatillas",
-      img: "https://i.pinimg.com/736x/fe/d0/ed/fed0ed7e0a966681ffc39c05e3349457.jpg",
-      url: "/zapatillas"
-    },
-    {
-      name: "Ropa",
-      img: "https://i.pinimg.com/736x/b4/c9/88/b4c98855bf6f66434bec7670eaf51f8c.jpg",
-      url: "/ropa"
-    },
-    {
-      name: "Accesorios",
-      img: "https://i.pinimg.com/736x/1c/f7/28/1cf7289e21823d34ca48b1b5d7836272.jpg",
-      url: "/accesorios"
-    }
-  ];
+  }, [images.length]);
 
   return (
-    <div className="flex flex-col flex-grow">
+    <div className="flex flex-col flex-grow bg-white">
 
-      {/* HERO */}
-      <section className="relative min-h-[88vh] w-full overflow-hidden">
+      <section className="relative min-h-screen w-full overflow-hidden bg-black">
 
         {images.map((img, index) => (
           <img
             key={index}
             src={img}
             alt="hero"
-            className={`absolute inset-0 w-full h-full object-cover object-[center_20%]
-            transition-all duration-[2200ms] ease-out
-            ${index === current ? "opacity-100 scale-105" : "opacity-0 scale-100"}`}
+            className={`absolute inset-0 w-full h-full object-cover object-center
+            transition-all duration-[3000ms] ease-out
+            ${
+              index === current
+                ? "opacity-100 scale-105"
+                : "opacity-0 scale-100"
+            }`}
           />
         ))}
 
-        <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/55 to-black/20"></div>
+        <div className="absolute inset-0 bg-black/55"></div>
 
-        <div className="relative z-10 flex items-center min-h-[88vh] px-6 md:px-16">
-          <div className="max-w-2xl text-white">
+        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-black/20"></div>
 
-            <p className="text-[11px] tracking-[0.45em] text-gray-400 mb-5 uppercase">
-              Colección exclusiva 2026
-            </p>
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/30"></div>
 
-            <h1 className="text-5xl md:text-7xl font-extrabold leading-tight">
-              Eleva tu estilo <br />
-              <span className="text-gray-300">sin esfuerzo</span>
+        <div className="relative z-10 flex items-center min-h-screen px-6 md:px-14">
+
+          <div className="max-w-4xl pt-20">
+
+            <div className="flex items-center gap-4 mb-8">
+
+              <span className="text-[11px] tracking-[0.5em] uppercase text-white/50 font-medium">
+                COLLECTION 2026
+              </span>
+
+            </div>
+
+            <h1 className="text-[58px] md:text-[120px] lg:text-[145px] leading-[0.88] font-black tracking-[-0.08em] uppercase text-white max-w-6xl">
+
+              Tu presencia <br />
+
+              <span className="text-white/30">
+                empieza aqui.
+              </span>
+
             </h1>
 
-            <p className="mt-6 text-lg text-gray-300 max-w-xl leading-relaxed">
-              Diseños seleccionados para quienes entienden que vestir bien no es opcional.
+            <p className="mt-10 text-white/60 text-base md:text-xl leading-relaxed max-w-2xl font-medium">
+
+              Piezas limitadas, diseño urbano y actitud en cada detalle.
+
             </p>
 
-            <div className="mt-10 flex gap-4 flex-wrap">
+            <div className="mt-12 flex flex-wrap gap-4">
 
               <button
                 onClick={() => navigate("/zapatillas")}
-                className="bg-white text-black px-8 py-3 rounded-full font-semibold hover:scale-105 hover:bg-gray-100 transition"
+                className="h-14 px-9 rounded-full bg-white text-black text-sm font-semibold tracking-wide hover:bg-neutral-200 transition-all duration-300"
               >
                 Comprar ahora
               </button>
 
               <button
                 onClick={() => navigate("/ropa")}
-                className="border border-white/40 px-8 py-3 rounded-full hover:bg-white hover:text-black transition backdrop-blur-sm"
+                className="h-14 px-9 rounded-full border border-white/15 bg-white/[0.04] backdrop-blur-xl text-white text-sm font-medium hover:bg-white hover:text-black transition-all duration-300"
               >
                 Explorar colección
               </button>
@@ -102,164 +120,259 @@ const Home = () => {
             </div>
 
           </div>
+
         </div>
 
-        <div className="absolute bottom-7 left-1/2 -translate-x-1/2 flex gap-2">
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex gap-3 z-20">
+
           {images.map((_, i) => (
             <div
               key={i}
-              className={`h-[3px] rounded-full transition-all duration-300 ${
-                i === current ? "w-10 bg-white" : "w-6 bg-white/40"
+              className={`h-[3px] rounded-full transition-all duration-500 ${
+                i === current
+                  ? "w-16 bg-white"
+                  : "w-7 bg-white/25"
               }`}
             />
           ))}
+
         </div>
+
       </section>
 
       <main className="flex-grow">
 
-        {/* TRUST STRIP */}
-        <section className="bg-black text-white py-10">
-          <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-10">
-
-            <div className="flex items-center justify-center gap-4">
-              <Truck size={22} />
-              <div>
-                <h3 className="font-semibold text-sm">Envíos rápidos</h3>
-                <p className="text-gray-400 text-xs">24-72h a nivel nacional</p>
-              </div>
-            </div>
-
-            <div className="flex items-center justify-center gap-4">
-              <ShieldCheck size={22} />
-              <div>
-                <h3 className="font-semibold text-sm">Pago seguro</h3>
-                <p className="text-gray-400 text-xs">Yape, Plin y tarjetas</p>
-              </div>
-            </div>
-
-            <div className="flex items-center justify-center gap-4">
-              <BadgeCheck size={22} />
-              <div>
-                <h3 className="font-semibold text-sm">Garantía real</h3>
-                <p className="text-gray-400 text-xs">Cambios y devoluciones</p>
-              </div>
-            </div>
-
-          </div>
-        </section>
-
-        {/* DESTACADOS */}
         <section className="px-6 md:px-12 py-16 bg-white">
+
           <div className="max-w-7xl mx-auto">
             <FeaturedProducts productos={productos} />
           </div>
+
         </section>
 
-        {/* CATEGORIAS */}
-        <section className="px-6 md:px-12 py-20 bg-gray-100">
-          <div className="max-w-7xl mx-auto">
+        <section className="relative px-6 md:px-12 py-24 bg-gray-100 overflow-hidden">
 
-            <h2 className="text-4xl font-bold mb-3 text-center">
-              Explora por categoría
-            </h2>
+          <div className="relative max-w-7xl mx-auto">
 
-            <p className="text-center text-gray-500 mb-14 max-w-xl mx-auto">
-              Encuentra piezas seleccionadas para cada ocasión
-            </p>
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+              <h2 className="text-[52px] md:text-[76px] leading-none font-black tracking-[-0.05em] text-black">
+                Explora tu <br />
+                próximo fit.
+              </h2>
+
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+
               {categories.map((cat, i) => (
                 <div
                   key={i}
                   onClick={() => navigate(cat.url)}
-                  className="relative h-80 md:h-[370px] rounded-[30px] overflow-hidden cursor-pointer group shadow-xl"
+                  className="group relative h-[460px] rounded-[40px] overflow-hidden cursor-pointer bg-black"
                 >
+
                   <img
                     src={cat.img}
                     alt={cat.name}
-                    className="w-full h-full object-cover group-hover:scale-110 transition duration-700"
+                    className="w-full h-full object-cover scale-100 group-hover:scale-110 transition-transform duration-[1800ms] ease-out"
                   />
 
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
 
-                  <div className="absolute bottom-8 left-8">
-                    <h3 className="text-white text-3xl font-bold">
-                      {cat.name}
-                    </h3>
-                    <p className="text-gray-300 text-sm mt-1 tracking-wide">
-                      Comprar ahora →
-                    </p>
+                  <div className="absolute bottom-0 left-0 w-full p-8 z-20">
+
+                    <div className="overflow-hidden">
+
+                      <h3 className="text-white text-[40px] font-black tracking-[-0.05em]">
+                        {cat.name}
+                      </h3>
+
+                    </div>
+
+                    <div className="flex items-center justify-between mt-4">
+
+                      <div className="flex items-center gap-3 text-white/70 text-sm font-medium group-hover:text-white transition duration-300">
+                        Ver Coleccion →
+                      </div>
+
+                    </div>
+
                   </div>
+
                 </div>
               ))}
+
             </div>
+
           </div>
+
         </section>
 
-        {/* MID BANNER */}
-        <section className="relative h-[420px] flex items-center justify-center overflow-hidden">
-          <img
-            src="https://i.pinimg.com/736x/d7/38/50/d738503554ce112dc4100d7c13876d84.jpg"
-            className="absolute w-full h-full object-cover"
-            alt=""
-          />
+        <section className="relative px-6 md:px-12 py-28 bg-white overflow-hidden">
 
-          <div className="absolute inset-0 bg-black/65"></div>
+          <div className="absolute inset-0 pointer-events-none">
 
-          <div className="relative z-10 text-center text-white px-6">
+            <div className="absolute top-[-120px] left-[-80px] w-[320px] h-[320px] bg-black/[0.03] rounded-full blur-3xl"></div>
 
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              Nueva Colección 2026
+            <div className="absolute bottom-[-120px] right-[-80px] w-[380px] h-[380px] bg-black/[0.04] rounded-full blur-3xl"></div>
+
+          </div>
+
+          <div className="relative max-w-6xl mx-auto text-center">
+
+            <div className="inline-flex items-center gap-3 mb-8">
+
+              <div className="w-10 h-[1px] bg-black"></div>
+
+              <p className="text-[11px] tracking-[0.45em] uppercase text-gray-400 font-medium">
+                Nuestra esencia
+              </p>
+
+              <div className="w-10 h-[1px] bg-black"></div>
+
+            </div>
+
+            <h2 className="text-[48px] md:text-[78px] leading-[0.95] font-black tracking-[-0.06em] uppercase text-black max-w-5xl mx-auto">
+
+              No vendemos <br />
+
+              <span className="text-gray-300">
+                prendas.
+              </span>
+
+              <br />
+
+              Vendemos presencia.
+
             </h2>
 
-            <p className="text-gray-300 mb-7 max-w-xl mx-auto">
-              Diseños creados para destacar en cualquier escenario.
-            </p>
-
-            <button
-              onClick={() => navigate("/ropa")}
-              className="bg-white text-black px-8 py-3 rounded-full font-semibold hover:scale-105 transition"
-            >
-              Explorar ahora
-            </button>
           </div>
+
         </section>
 
-        {/* NUEVOS INGRESOS */}
-        <section className="px-6 md:px-12 py-16 bg-gray-50">
-          <div className="max-w-7xl mx-auto">
+        <section className="relative h-[620px] overflow-hidden bg-black">
 
-            <div className="flex justify-between items-center mb-10 flex-wrap gap-3">
-              <h2 className="text-3xl font-bold">
-                Recién llegados
+          <img
+            src="https://i.pinimg.com/736x/d7/38/50/d738503554ce112dc4100d7c13876d84.jpg"
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover scale-105 hover:scale-110 transition-transform duration-[4000ms] ease-out"
+          />
+
+          <div className="absolute inset-0 bg-black/55"></div>
+
+          <div className="absolute inset-0 bg-gradient-to-r from-black via-black/40 to-transparent"></div>
+
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/20"></div>
+
+          <div className="relative z-10 h-full flex items-center px-6 md:px-16">
+
+            <div className="max-w-3xl">
+
+              <h2 className="text-[58px] md:text-[120px] leading-[0.9] font-black tracking-[-0.08em] uppercase text-white">
+
+                Edición <br />
+
+                <span className="text-white/30">
+                  limitada
+                </span>
+
               </h2>
+
+              <p className="mt-8 text-white/70 text-base md:text-xl leading-relaxed max-w-2xl font-medium">
+
+                Diseños exclusivos creados para quienes no quieren verse como todos.
+
+              </p>
+
+              <div className="mt-10 flex flex-wrap gap-4">
+
+                <button
+                  onClick={() => navigate("/zapatillas")}
+                  className="h-14 px-9 rounded-full border border-white/15 bg-white/5 backdrop-blur-md text-white text-sm font-medium hover:bg-white hover:text-black transition-all duration-300"
+                >
+                  Ver colección
+                </button>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-black to-transparent"></div>
+
+        </section>
+
+        <section className="relative px-6 md:px-12 py-24 bg-[#f3f3f3] overflow-hidden">
+
+          <div className="absolute top-0 left-[-120px] w-[320px] h-[320px] bg-black/[0.03] rounded-full blur-3xl"></div>
+
+          <div className="absolute bottom-[-120px] right-[-120px] w-[320px] h-[320px] bg-black/[0.04] rounded-full blur-3xl"></div>
+
+          <div className="relative max-w-7xl mx-auto">
+
+            <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-16">
+
+              <div>
+
+                <h2 className="text-[42px] md:text-[72px] leading-[0.92] font-black tracking-[-0.06em] uppercase text-black">
+                  Nuevos <br />
+                  Ingresos
+                </h2>
+
+              </div>
 
               <button
                 onClick={() => navigate("/zapatillas")}
-                className="text-sm font-medium text-gray-500 hover:text-black transition"
+                className="group w-fit h-14 px-8 rounded-full bg-black text-white text-sm font-semibold tracking-wide hover:bg-neutral-800 transition-all duration-300"
               >
-                Ver todos los productos →
+
+                <span className="flex items-center gap-3">
+
+                  Ver todo
+
+                  <span className="group-hover:translate-x-1 transition-transform duration-300">
+                    →
+                  </span>
+
+                </span>
+
               </button>
+
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
+            <div className="flex gap-7 overflow-x-auto pb-4 scrollbar-hide">
+
               {productos.slice(0, 8).map((p) => (
                 <div
                   key={p.id}
-                  className="hover:scale-[1.03] transition duration-300"
+                  className="min-w-[290px] max-w-[290px] group transition-all duration-500 hover:-translate-y-2"
                 >
-                  <ProductCard producto={p} />
+
+                  <div className="relative">
+
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/[0.04] blur-2xl rounded-[32px] transition-all duration-500"></div>
+
+                    <div className="relative">
+                      <ProductCard producto={p} />
+                    </div>
+
+                  </div>
+
                 </div>
               ))}
+
             </div>
 
           </div>
+
         </section>
 
       </main>
 
       <Footer />
+
     </div>
   );
 };

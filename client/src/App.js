@@ -6,7 +6,7 @@ import "./App.css";
 
 import MainLayout from "./layout/MainLayout";
 
-import Home from "./pages/home";
+import Home from "./pages/Home";
 import Zapatillas from "./pages/Zapatillas";
 import Ropa from "./pages/Ropa";
 import Accesorios from "./pages/Accesorios";

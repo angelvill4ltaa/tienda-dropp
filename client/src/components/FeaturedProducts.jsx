@@ -12,35 +12,29 @@ const FeaturedProducts = ({ productos }) => {
   return (
     <section className="max-w-7xl mx-auto px-4 md:px-0 py-16 relative">
 
-      {/* HEADER */}
       <div className="flex justify-between items-center mb-10">
         <div>
           <h2 className="text-3xl md:text-4xl font-bold">
-            Lo más destacado
+            Lo más vendido
           </h2>
-          <p className="text-gray-500 text-sm mt-1">
-            Productos más populares de la semana
-          </p>
         </div>
 
-        {/* FLECHAS CUSTOM */}
         <div className="hidden md:flex gap-2">
           <button
             ref={prevRef}
-            className="w-10 h-10 rounded-full border flex items-center justify-center hover:bg-black hover:text-white transition"
+            className="w-11 h-11 rounded-full border border-gray-300 bg-white flex items-center justify-center hover:bg-black hover:text-white hover:border-black transition"
           >
             ←
           </button>
           <button
             ref={nextRef}
-            className="w-10 h-10 rounded-full border flex items-center justify-center hover:bg-black hover:text-white transition"
+            className="w-11 h-11 rounded-full border border-gray-300 bg-white flex items-center justify-center hover:bg-black hover:text-white hover:border-black transition"
           >
             →
           </button>
         </div>
       </div>
-
-      {/* SWIPER */}
+ 
       <Swiper
         modules={[Navigation, Autoplay]}
         spaceBetween={24}

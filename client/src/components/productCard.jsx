@@ -12,11 +12,11 @@ const ProductCard = ({ producto }) => {
 
         <div className="relative h-72 bg-[#fafafa] flex items-center justify-center overflow-hidden">
 
-          <div className="w-[78%] h-[78%] flex items-center justify-center">
+          <div className="w-[76%] h-[76%] flex items-center justify-center">
             <img
               src={`/assets/${producto.imagen}`}
               alt={producto.nombre}
-              className="w-full h-full object-contain group-hover:scale-105 transition duration-500"
+              className="w-full h-full object-contain group-hover:scale-[1.035] transition-transform duration-700"
             />
           </div>
 
@@ -27,20 +27,20 @@ const ProductCard = ({ producto }) => {
 
         <div className="px-5 pb-6 pt-4">
 
-          <p className="text-[10px] uppercase tracking-[0.28em] text-gray-400 font-semibold mb-2">
+          <p className="text-[10px] uppercase tracking-[0.24em] text-gray-400 font-semibold mb-2">
             DROPP
           </p>
 
-          <h3 className="font-medium text-[14px] leading-snug line-clamp-2 min-h-[42px] text-gray-800">
+          <h3 className="font-medium text-[16px] leading-snug line-clamp-2 min-h-[30px] text-gray-800">
             {producto.nombre}
           </h3>
 
-          <div className="mt-3 flex items-center justify-between">
-            <p className="text-black font-black text-[23px] tracking-tight">
+          <div className="mt-2 flex items-center justify-between">
+            <p className="text-[20px] font-black  tracking-tight">
               S/ {producto.precio}
             </p>
 
-            <span className="text-[11px] text-gray-400">
+            <span className="text-[11px] text-gray-500 font-medium">
               Disponible
             </span>
           </div>

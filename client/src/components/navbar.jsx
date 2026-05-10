@@ -22,45 +22,100 @@ const Navbar = () => {
   const isActive = (path) => location.pathname === path;
 
   const handleLogout = () => {
-    Swal.fire({
-      title: '<span style="font-size:28px;font-weight:800;color:#111;">Cerrar sesión</span>',
-      html: `
-        <p style="font-size:14px;color:#666;line-height:1.8;margin-top:8px;">
-          Saldrás de tu cuenta actual y deberás iniciar sesión nuevamente para acceder a tus compras y beneficios.
-        </p>
-      `,
-      showCancelButton: true,
-      confirmButtonText: "Sí, salir",
-      cancelButtonText: "Cancelar",
-      confirmButtonColor: "#000",
-      cancelButtonColor: "#f3f3f3",
-      width: "470px",
-      padding: "2em",
-      borderRadius: "24px",
-      reverseButtons: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        logout();
+  Swal.fire({
+    html: `
+      <div style="
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        text-align:center;
+        padding-top:0;">
 
-        Swal.fire({
-          icon: "success",
-          title: '<span style="font-size:24px;font-weight:800;">Sesión finalizada</span>',
-          html: `
-            <p style="font-size:14px;color:#666;line-height:1.7;">
-              Tu cuenta ha sido cerrada correctamente.
+      <h2 style="
+        font-size:30px;
+        font-weight:700;
+        color:#111;
+        margin:0;
+        letter-spacing:-0.04em;">
+        Cerrar sesión
+      </h2>
+      <p style="
+        margin-top:14px;
+        font-size:15px;
+        line-height:1.7;
+        color:#6b7280;
+        max-width:320px;">
+        Tu sesión actual se cerrará.
+      </p>
+      </div>
+    `,
+
+    showCancelButton: true,
+
+    confirmButtonText: "Cerrar sesión",
+    cancelButtonText: "Cancelar",
+
+    reverseButtons: true,
+    buttonsStyling: false,
+
+    width: "460px",
+    padding: "2.5rem 2.2rem 2rem",
+    borderRadius: "32px",
+    background: "#fff",
+
+    customClass: {
+      popup: "swal2-premium-popup",
+      confirmButton: "swal2-premium-confirm",
+      cancelButton: "swal2-premium-cancel",
+      actions: "swal2-premium-actions"
+    },
+
+  }).then((result) => {
+    if (result.isConfirmed) {
+      logout();
+
+      Swal.fire({
+        icon: "success",
+
+        html: `
+          <div style="padding-top:6px;">
+            <h2 style="
+              font-size:28px;
+              font-weight:700;
+              color:#111;
+              margin:0;
+              letter-spacing:-0.04em;">
+              Sesión cerrada
+            </h2>
+            <p style="
+              margin-top:12px;
+              font-size:14px;
+              color:#6b7280;
+              line-height:1.7;">
+              Has salido correctamente de tu cuenta.
             </p>
-          `,
-          confirmButtonText: "Continuar",
-          confirmButtonColor: "#000",
-          width: "430px",
-          padding: "2em",
-          borderRadius: "24px",
-        }).then(() => {
-          navigate("/");
-        });
-      }
-    });
-  };
+          </div>
+        `,
+
+        confirmButtonText: "Continuar",
+
+        buttonsStyling: false,
+
+        width: "430px",
+        padding: "2.2rem 2rem 1.8rem",
+        borderRadius: "30px",
+
+        customClass: {
+          popup: "swal2-premium-popup",
+          confirmButton: "swal2-premium-confirm",
+        },
+
+      }).then(() => {
+        navigate("/");
+      });
+    }
+  });
+};
 
   useEffect(() => {
     const onScroll = () => {
@@ -93,41 +148,39 @@ const Navbar = () => {
   return (
     <>
       <header
-        className={`sticky top-0 z-50 border-b border-gray-100 transition-all duration-300 ${
+        className={`sticky top-0 z-50  transition-all duration-500 ${
           scrolled
-            ? "bg-white/90 h-14"
-            : "bg-white h-16"
+            ? "bg-white/80 backdrop-blur-xl border-b border-[#f3f3f3] h-[68px]"
+            : "bg-white h-[76px]"
         }`}
       >
-        <div className="flex items-center justify-between px-5 md:px-10 h-full">
+        <div className="flex items-center justify-between px-6 md:px-14 h-full">
 
-          {/* LOGO */}
           <Link to="/" className="group z-50">
             <img
               src="/assets/logo.png"
               alt="logo"
-              className={`object-contain transition-all duration-300 ${
-                scrolled ? "w-11 h-7" : "w-14 h-10"
-              } group-hover:scale-105`}
+              className={`object-contain transition-all duration-500 ${
+                scrolled ? "w-12 h-8" : "w-[62px] h-11"
+              } group-hover:scale-[1.02]`}
             />
           </Link>
 
-          {/* DESKTOP NAV */}
-          <nav className="hidden md:flex items-center gap-9">
+          <nav className="hidden md:flex items-center gap-10 ml-10">
             {menuItems.map((item) => (
               <Link
                 key={item.path}
                 to={item.path}
-                className={`relative text-[14px] font-medium tracking-wide transition-colors ${
+                className={`relative text-[13px] font-medium tracking-[0.04em] transition-colors duration-300 ${
                   isActive(item.path)
                     ? "text-black"
-                    : "text-gray-500 hover:text-black"
+                    : "text-gray-600 hover:text-black"
                 }`}
               >
                 {item.name}
 
                 <span
-                  className={`absolute left-0 -bottom-1 h-[2px] bg-black transition-all duration-300 ${
+                  className={`absolute left-0 -bottom-[8px] h-[1.5px] bg-black transition-all duration-300 ${
                     isActive(item.path) ? "w-full" : "w-0"
                   }`}
                 />
@@ -135,51 +188,47 @@ const Navbar = () => {
             ))}
           </nav>
 
-          {/* RIGHT */}
           <div className="flex items-center">
 
-            {/* SEARCH */}
             <div
               onClick={() => setSearchOpen(true)}
-              className={`hidden md:flex items-center px-4 h-11 rounded-full cursor-text transition-all duration-300 mr-4 w-[210px]
+              className={`hidden md:flex items-center px-4 h-[42px] rounded-full cursor-text transition-all duration-300 mr-3 w-[220px]
               ${
                 searchOpen
                   ? "scale-95 opacity-0"
                   : "bg-gray-100 hover:bg-gray-200"
               }`}
             >
-              <Search size={16} className="text-gray-500" />
-              <span className="px-2 text-sm text-gray-400">
+              <Search size={16} className="text-gray-600 " />
+              <span className="px-2 text-sm text-gray-400 font-medium">
                 Buscar 
               </span>
             </div>
 
-            {/* CART */}
             <button
               onClick={() => setOpenCart(true)}
-              className="relative w-11 h-11 rounded-full hover:bg-gray-100 flex items-center justify-center transition-all duration-300 mr-5"
+              className="relative w-[42px] h-[42px] rounded-full hover:bg-[#f6f6f6] flex items-center justify-center transition-all duration-300 mr-3"
             >
               <ShoppingCart size={20} />
 
               {carrito.length > 0 && (
-                <span className="absolute top-1 right-1 min-w-[17px] h-[17px] px-1 rounded-full bg-black text-white text-[10px] flex items-center justify-center font-medium">
+                <span className="absolute top-[7px] right-[7px] min-w-[16px] h-[16px] px-1 rounded-full bg-black text-white text-[9px] flex items-center justify-center font-medium">
                   {carrito.length}
                 </span>
               )}
             </button>
 
-            {/* AUTH */}
             {user ? (
               <div ref={profileRef} className="hidden md:block relative">
                 <button
                   onClick={() => setProfileOpen(!profileOpen)}
-                  className="flex items-center gap-3 hover:bg-gray-100 px-2.5 py-2 rounded-full transition-all duration-300"
+                  className="flex items-center gap-2.5  px-2 py-2 rounded-full transition-all duration-300 hover:bg-[#f8f8f8]"
                 >
-                  <div className="w-9 h-9 rounded-full bg-black text-white flex items-center justify-center text-xs font-bold uppercase">
+                  <div className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center text-[11px] font-semibold uppercase">
                     {user.nombre?.charAt(0)}
                   </div>
 
-                  <span className="text-sm text-gray-700 max-w-[90px] truncate">
+                  <span className="text-sm text-gray-700 max-w-[90px] font-medium ">
                     {user.nombre}
                   </span>
 

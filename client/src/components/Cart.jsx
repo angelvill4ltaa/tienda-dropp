@@ -17,7 +17,6 @@ const Cart = () => {
 
   return (
     <>
-      {/* OVERLAY */}
       <div
         onClick={() => setOpenCart(false)}
         className={`fixed inset-0 bg-black/70 backdrop-blur-sm z-40 transition-all duration-300 ${
@@ -25,13 +24,11 @@ const Cart = () => {
         }`}
       />
 
-      {/* SIDEBAR */}
       <div
-        className={`fixed top-0 right-0 h-full w-[430px] bg-white shadow-[0_25px_80px_rgba(0,0,0,0.25)] transform ${
+        className={`fixed top-0 right-0 h-full w-full sm:w-[430px] bg-white shadow-[0_25px_80px_rgba(0,0,0,0.25)] transform ${
           openCart ? "translate-x-0" : "translate-x-full"
         } transition-all duration-500 z-50 flex flex-col`}
       >
-        {/* HEADER */}
         <div className="px-7 py-6 border-b border-gray-100 flex justify-between items-center">
           <h2 className="text-xl font-semibold tracking-tight flex items-center gap-2">
             <ShoppingBag size={18} />
@@ -49,10 +46,8 @@ const Cart = () => {
           </button>
         </div>
 
-        {/* BODY */}
         <div className="flex-1 overflow-y-auto px-7 py-6 space-y-5">
 
-          {/* EMPTY */}
           {carrito.length === 0 && (
             <div className="flex flex-col items-center justify-center h-full text-center">
               <ShoppingBag size={46} className="text-gray-200 mb-5" />
@@ -74,7 +69,6 @@ const Cart = () => {
             </div>
           )}
 
-          {/* ITEMS */}
           {carrito.map((p, i) => (
             <div
               key={i}
@@ -82,7 +76,6 @@ const Cart = () => {
             >
               <div className="flex gap-4">
 
-                {/* IMG */}
                 <div className="w-24 h-24 rounded-2xl overflow-hidden flex items-center justify-center bg-white">
                   <img
                     src={`/assets/${p.imagen}`}
@@ -91,7 +84,6 @@ const Cart = () => {
                   />
                 </div>
 
-                {/* INFO */}
                 <div className="flex-1 min-w-0">
 
                   <div className="flex justify-between gap-3">
@@ -113,11 +105,10 @@ const Cart = () => {
                     </p>
                   )}
 
-                  <p className="text-sm font-semibold mt-2">
+                  <p className="text-xs text-gray-500 mt-2">
                     S/ {p.precio}
                   </p>
 
-                  {/* CONTROLS */}
                   <div className="flex items-center justify-between mt-4">
 
                     <div className="flex items-center bg-gray-50 rounded-full px-2 py-1 gap-2 border">
@@ -151,7 +142,6 @@ const Cart = () => {
           ))}
         </div>
 
-        {/* FOOTER */}
         <div className="px-7 py-6 border-t border-gray-100 bg-white">
 
           <div className="bg-gray-50 rounded-3xl p-5">
