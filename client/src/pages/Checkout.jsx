@@ -1,55 +1,9 @@
 import { useStore } from "../context/StoreContext";
 import Footer from "../components/Footer";
 import { useState } from "react";
-import { Lock, Loader2, Truck, CreditCard, ShieldCheck, ClipboardList, } from "lucide-react";
+import { Lock, Loader2, Truck, CreditCard, ShieldCheck } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
-
-const FloatInput = ({
-  name,
-  label,
-  value,
-  onChange,
-  error,
-  numeric = false,
-}) => {
-  return (
-    <div className="space-y-1">
-      <div
-        className={`relative h-[58px] rounded-2xl border transition-all duration-300
-        ${
-          error
-            ? "border-red-500"
-            : "border-gray-300 focus-within:border-black focus-within:shadow-[0_0_0_4px_rgba(0,0,0,0.025)]"
-        }`}
-      >
-        <input
-          name={name}
-          value={value}
-          onChange={onChange}
-          placeholder=" "
-          inputMode={numeric ? "numeric" : "text"}
-          className="peer w-full h-full px-4 pt-4 text-sm bg-transparent outline-none"
-        />
-
-        <label
-          className={`absolute left-4 pointer-events-none transition-all duration-200
-          top-1/2 -translate-y-1/2 text-sm
-          peer-focus:top-2.5 peer-focus:translate-y-0 peer-focus:text-[11px]
-          peer-[:not(:placeholder-shown)]:top-2.5 peer-[:not(:placeholder-shown)]:translate-y-0 peer-[:not(:placeholder-shown)]:text-[11px]
-          ${
-            error
-              ? "text-red-400"
-              : "text-gray-400 peer-focus:text-gray-500"
-          }`}
-        >
-          {label}
-        </label>
-      </div>
-
-      {error && <p className="text-red-500 text-xs pl-1">{error}</p>}
-    </div>
-  );
-};
+import FloatingInput from "../components/FloatingInput";
 
 const Checkout = () => {
   const { user } = useAuth();
@@ -106,9 +60,7 @@ const Checkout = () => {
       .substring(0, 5);
   };
 
-  const handleCardChange = (e) => {
-    let { name, value } = e.target; 
-
+  const handleCardChange = ({ target: { name, value } }) => {
     if (name === "numero") {
       value = formatCardNumber(value).substring(0, 19);
     }
@@ -118,7 +70,7 @@ const Checkout = () => {
     }
 
     if (name === "cvv") {
-      value = value.replace(/\D/g, "").substring(0, 4);
+      value = onlyNumbers(value, 4);
     }
     
     setCard((prev) => ({ ...prev, [name]: value }));
@@ -136,7 +88,7 @@ const Checkout = () => {
   const [loading, setLoading] = useState(false);
 
   const subtotal = carrito.reduce(
-    (acc, p) => acc + p.precio * p.cantidad,
+    (total, item) => total + item.precio * item.cantidad,
     0
   );
 
@@ -144,23 +96,16 @@ const Checkout = () => {
     metodoEnvio === "express" ? 20 : subtotal > 500 ? 0 : 10;
 
   const total = subtotal + envioCosto;
+  
+  const onlyNumbers = (value, limit) =>
+  value.replace(/\D/g, "").slice(0, limit);
 
-  const handleChange = (e) => {
-    let { name, value } = e.target;
+  const handleChange = ({ target: { name, value } }) => {
 
-    if (name === "dni") {
-    value = value.replace(/\D/g, "").slice(0, 8);
-  }
-
-  if (name === "telefono") {
-    value = value.replace(/\D/g, "").slice(0, 9);
-  }
-
-    setForm((prev) => ({
-  ...prev,
-  [name]: value,
-}));
-
+    if (name === "dni") value = onlyNumbers(value, 8);
+    if (name === "telefono") value = onlyNumbers(value, 9);
+    
+    setForm((prev) => ({ ...prev, [name]: value }));
     setErrors((prev) => ({ ...prev, [name]: null }));
   };
 
@@ -277,15 +222,12 @@ const Checkout = () => {
     );
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50">
 
       <div className="bg-white border-b border-gray-200 px-6 md:px-12 py-5">
   <div className="max-w-7xl mx-auto flex items-center justify-between">
     <div>
-      <p className="text-[11px] uppercase tracking-[0.25em] text-gray-400 font-semibold">
-        DROPP SECURE CHECKOUT
-      </p>
-      <h1 className="text-2xl font-bold tracking-tight mt-1">
+      <h1 className="text-2xl font-bold mt-1">
         Finalizar compra
       </h1>
     </div>
@@ -297,60 +239,61 @@ const Checkout = () => {
   </div>
 </div>
 
-      <main className="flex-grow px-6 md:px-12 py-14">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-14">
+      <main className="flex-grow px-6 md:px-12 py-10">
+        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-10">
 
-          <div className="space-y-10">
+          <div className="space-y-6">
 
-            {/* DATOS */}
-            <div className="bg-white p-10 rounded-3xl border border-gray-200 shadow-[0_5px_20px_rgba(0,0,0,0.04)]">
-              <h2 className="text-2xl font-semibold mb-10 tracking-tight">
+            <div className="bg-white p-10 rounded-3xl border">
+              <h2 className="text-2xl font-semibold mb-6">
                 Datos de envío
               </h2>
 
-              <div className="grid grid-cols-1 gap-6">
-  <FloatInput
-    name="nombre"
-    label="Nombre completo"
-    value={form.nombre}
-    onChange={handleChange}
-    error={errors.nombre}
-  />
+              <div className="grid gap-6">
+                <FloatingInput
+                  name="nombre"
+                  label="Nombre completo"
+                  value={form.nombre}
+                  onChange={handleChange}
+                  error={errors.nombre}
+                />
 
-  <FloatInput
-    name="correo"
-    label="Correo electrónico"
-    value={form.correo}
-    onChange={handleChange}
-    error={errors.correo}
-  />
+                <FloatingInput
+                  name="correo"
+                  label="Correo electrónico"
+                  value={form.correo}
+                  onChange={handleChange}
+                  error={errors.correo}
+                />
 
-  <FloatInput
-    name="dni"
-    label="DNI"
-    value={form.dni}
-    onChange={handleChange}
-    error={errors.dni}
-    numeric
-  />
+                <FloatingInput
+                  name="dni"
+                  label="DNI"
+                  value={form.dni}
+                  onChange={handleChange}
+                  error={errors.dni}
+                  inputMode="numeric"
+                  maxLength={8}
+                />
 
-  <FloatInput
-    name="telefono"
-    label="Teléfono"
-    value={form.telefono}
-    onChange={handleChange}
-    error={errors.telefono}
-    numeric
-  />
+                <FloatingInput
+                  name="telefono"
+                  label="Teléfono"
+                  value={form.telefono}
+                  onChange={handleChange}
+                  error={errors.telefono}
+                  inputMode="numeric"
+                  maxLength={9}
+                />
 
-  <FloatInput
-    name="direccion"
-    label="Dirección de entrega"
-    value={form.direccion}
-    onChange={handleChange}
-    error={errors.direccion}
-  />
-</div>
+                <FloatingInput
+                  name="direccion"
+                  label="Dirección de entrega"
+                  value={form.direccion}
+                  onChange={handleChange}
+                  error={errors.direccion}
+                />
+              </div>
 
               {errors.global && (
                 <div className="mt-6 text-sm text-red-500 bg-red-50 border border-red-200 px-4 py-3 rounded-xl">
@@ -359,8 +302,7 @@ const Checkout = () => {
               )}
             </div>
 
-            {/* ENVÍO */}
-            <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-[0_5px_20px_rgba(0,0,0,0.04)] space-y-3">
+            <div className="bg-white p-6 rounded-2xl border space-y-3">
               <h2 className="font-semibold flex items-center gap-2">
                 <Truck size={16} /> Método de envío
               </h2>
@@ -368,7 +310,7 @@ const Checkout = () => {
               {["standard", "express"].map((tipo) => (
                 <label
                   key={tipo}
-                  className={`flex justify-between items-center p-4 rounded-xl cursor-pointer border transition-all
+                  className={`flex justify-between items-center p-4 rounded-xl cursor-pointer border
                   ${
                     metodoEnvio === tipo
                       ? "border-black bg-gray-50"
@@ -398,8 +340,7 @@ const Checkout = () => {
               ))}
             </div>
 
-            {/* PAGO */}
-            <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-[0_5px_20px_rgba(0,0,0,0.04)] space-y-3">
+            <div className="bg-white p-6 rounded-2xl border space-y-3">
               <h2 className="font-semibold flex items-center gap-2">
                 <CreditCard size={16} /> Método de pago
               </h2>
@@ -410,7 +351,7 @@ const Checkout = () => {
               ].map((pago) => (
                 <label
                   key={pago.id}
-                  className={`flex justify-between items-center p-4 rounded-xl cursor-pointer border transition
+                  className={`flex justify-between items-center p-4 rounded-xl cursor-pointer border
                   ${
                     metodoPago === pago.id
                       ? "border-black bg-gray-50"
@@ -429,9 +370,8 @@ const Checkout = () => {
               ))}
             </div>
 
-            {/* PAGOS */}
             {metodoPago === "yape" && (
-              <div className="mt-4 border border-gray-200 rounded-2xl p-6 text-center space-y-4">
+              <div className="mt-4 border rounded-2xl p-6 text-center space-y-4">
 
                 <p className="text-sm font-medium">
                   Escanea el QR con Yape
@@ -459,62 +399,23 @@ const Checkout = () => {
             )}
 
           {metodoPago === "tarjeta" && (
-            <div className="mt-4 border border-gray-200 rounded-3xl p-6 space-y-5 bg-white shadow-[0_5px_20px_rgba(0,0,0,0.03)]">
+            <div className="mt-4 border rounded-3xl p-6 space-y-5">
  
-                  <div className="rounded-[30px] bg-gradient-to-br from-black via-gray-900 to-gray-800 text-white p-7 shadow-[0_18px_40px_rgba(0,0,0,0.22)] mb-6 overflow-hidden relative">
-
-  <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-white/5"></div>
-  <div className="absolute -bottom-10 -left-10 w-28 h-28 rounded-full bg-white/5"></div>
-
-  <div className="relative z-10">
-    <div className="flex justify-between items-center mb-10">
-      <p className="text-[11px] uppercase tracking-[0.25em] text-gray-400">
-        Secure Payment
-      </p>
-
-      <CreditCard size={20} className="text-gray-300" />
-    </div>
-
-    <div className="text-2xl md:text-3xl tracking-[0.20em] font-light mb-8">
-      {card.numero || "•••• •••• •••• ••••"}
-    </div>
-
-    <div className="flex justify-between items-end">
-      <div>
-        <p className="text-[10px] uppercase text-gray-400 mb-1">
-          Card Holder
-        </p>
-        <p className="text-sm tracking-wide">
-          {card.nombre || "NOMBRE COMPLETO"}
-        </p>
-      </div>
-
-      <div>
-        <p className="text-[10px] uppercase text-gray-400 mb-1">
-          Expires
-        </p>
-        <p className="text-sm">
-          {card.expiracion || "MM/AA"}
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
-  
              <p className="text-sm font-semibold">
                Información de la tarjeta
              </p>
 
-             <FloatInput
+             <FloatingInput
                name="numero"
                label="Número de tarjeta"
                value={card.numero}
                onChange={handleCardChange}
                error={errors.cardNumero}
-               numeric
+               inputMode="numeric"
+               maxLength={19}
              />
 
-             <FloatInput
+             <FloatingInput
                name="nombre"
                label="Nombre en la tarjeta"
                value={card.nombre}
@@ -523,22 +424,24 @@ const Checkout = () => {
               />
 
               <div className="grid grid-cols-2 gap-4">
-                  <FloatInput
+                  <FloatingInput
                     name="expiracion"
                     label="MM/AA"
                     value={card.expiracion}
                     onChange={handleCardChange}
                     error={errors.cardExp}
-                    numeric
-                />
+                    inputMode="numeric"
+                    maxLength={5}
+                  />
 
-                  <FloatInput
+                  <FloatingInput
                     name="cvv"
                     label="CVV"
                     value={card.cvv}
                     onChange={handleCardChange}
                     error={errors.cardCvv}
-                    numeric
+                    inputMode="numeric"
+                    maxLength={4}
                   />
             </div>
 
@@ -552,11 +455,10 @@ const Checkout = () => {
             
           </div>
 
-          {/* RIGHT */}
-          <div className="bg-white p-8 md:p-9 rounded-[34px] border border-gray-200 shadow-[0_14px_40px_rgba(0,0,0,0.06)] sticky top-10 h-fit">
+          <div className="bg-white p-8 rounded-3xl border sticky top-10 h-fit">
 
   <div className="flex items-center justify-between mb-7">
-    <h2 className="text-xl font-semibold tracking-tight">
+    <h2 className="text-xl font-semibold">
       Resumen de compra
     </h2>
 
@@ -571,7 +473,7 @@ const Checkout = () => {
         key={i}
         className="flex gap-4 items-center border-b border-gray-100 pb-4"
       >
-        <div className="w-16 h-16 bg-white border border-gray-200 rounded-2xl flex items-center justify-center overflow-hidden shrink-0">
+        <div className="w-16 h-16 border rounded-2xl">
           <img
             src={`/assets/${p.imagen}`}
             className="object-contain h-full w-full p-2"
@@ -580,7 +482,7 @@ const Checkout = () => {
         </div>
 
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-medium leading-tight line-clamp-2">
+          <p className="text-sm font-medium">
             {p.nombre}
           </p>
 
@@ -589,7 +491,7 @@ const Checkout = () => {
           </p>
         </div>
 
-        <p className="text-sm font-semibold whitespace-nowrap">
+        <p className="text-sm font-semibold">
           S/ {(p.precio * p.cantidad).toFixed(2)}
         </p>
       </div>
@@ -620,7 +522,7 @@ const Checkout = () => {
   <div className="my-7 border-t pt-6">
     <div className="flex justify-between items-end">
       <span className="text-gray-500 text-sm">Total a pagar</span>
-      <span className="text-3xl font-black tracking-tight">
+      <span className="text-3xl font-medium">
         S/ {total.toFixed(2)}
       </span>
     </div>
@@ -629,7 +531,7 @@ const Checkout = () => {
   <button
     onClick={handlePago}
     disabled={loading || carrito.length === 0 || !isFormValid || !isCardValid}
-    className="w-full bg-black text-white py-4 rounded-full font-medium flex items-center justify-center gap-2 hover:bg-gray-900 active:scale-[0.98] transition-all disabled:bg-gray-300 disabled:cursor-not-allowed"
+    className="w-full py-4 rounded-full bg-black text-white flex items-center justify-center gap-2 disabled:bg-gray-300"
   >
     {loading ? (
       <>
@@ -640,31 +542,10 @@ const Checkout = () => {
       <>
         <ShieldCheck size={18} />
         Confirmar y pagar
-      </>
-    )}
-  </button>
-
-  <div className="grid grid-cols-3 gap-3 mt-5 text-center">
-    <div className="border rounded-2xl py-3 px-2">
-      <Lock size={15} className="mx-auto mb-1 text-gray-500" />
-      <p className="text-[10px] text-gray-500">SSL Seguro</p>
-    </div>
-
-    <div className="border rounded-2xl py-3 px-2">
-      <Truck size={15} className="mx-auto mb-1 text-gray-500" />
-      <p className="text-[10px] text-gray-500">Envío rápido</p>
-    </div>
-
-    <div className="border rounded-2xl py-3 px-2">
-      <ClipboardList size={15} className="mx-auto mb-1 text-gray-500" />
-      <p className="text-[10px] text-gray-500">Orden segura</p>
-    </div>
-  </div>
-
-  <p className="text-[11px] text-gray-400 mt-5 text-center leading-relaxed">
-    Al confirmar tu compra aceptas el procesamiento seguro de datos y la emisión automática de tu orden.
-  </p>
-</div>
+               </>
+              )}
+            </button>
+          </div>
         </div>
       </main>
 

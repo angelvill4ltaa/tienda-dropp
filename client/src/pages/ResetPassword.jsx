@@ -52,8 +52,8 @@ const ResetPassword = () => {
     setLoading(true);
 
     Swal.fire({
-      title: '<span style="font-size:22px;font-weight:700;">Actualizando contraseña...</span>',
-      html: '<p style="font-size:14px;color:#777;">Estamos asegurando tu cuenta.</p>',
+      title: "Actualizando contraseña...",
+      text: "Estamos asegurando tu cuenta.",
       allowOutsideClick: false,
       allowEscapeKey: false,
       showConfirmButton: false,
@@ -73,13 +73,9 @@ const ResetPassword = () => {
 
       await Swal.fire({
         icon: "success",
-        title: '<span style="font-size:24px;font-weight:800;">Contraseña actualizada</span>',
-        html: `
-          <p style="font-size:14px;color:#666;line-height:1.7;">
-            Tu acceso ha sido restablecido correctamente.
-            Ya puedes iniciar sesión con tu nueva contraseña.
-          </p>
-        `,
+        title: "Contraseña actualizada",
+        text: "Ya puedes iniciar sesión con tu nueva contraseña.",
+          
         confirmButtonText: "Ir a iniciar sesión",
         confirmButtonColor: "#000",
         width: "470px",
@@ -159,8 +155,7 @@ const ResetPassword = () => {
           className="absolute inset-0 w-full h-full object-cover object-top"
         />
 
-        <div className="absolute inset-0 bg-black/65" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-black/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/40" />
 
         <div className="relative z-10">
           <h1 className="text-3xl font-extrabold tracking-widest">
@@ -229,7 +224,6 @@ const ResetPassword = () => {
               </div>
             </div>
 
-            {/* CONFIRM */}
             <div className="space-y-1">
               <div className="relative h-[58px] rounded-2xl border border-gray-300 focus-within:border-black focus-within:shadow-[0_0_0_4px_rgba(0,0,0,0.025)] transition-all duration-300">
                 <input

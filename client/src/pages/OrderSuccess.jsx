@@ -34,7 +34,7 @@ const OrderSuccess = () => {
   const doc = new jsPDF();
   let y = 20;
 
-  // 🔥 Convertir imagen a base64 desde ruta
+  // Convertir imagen a base64 desde ruta
   const getBase64 = (imgPath) => {
     return new Promise((resolve, reject) => {
       const img = new Image();

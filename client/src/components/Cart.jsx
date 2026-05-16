@@ -19,17 +19,17 @@ const Cart = () => {
     <>
       <div
         onClick={() => setOpenCart(false)}
-        className={`fixed inset-0 bg-black/70 backdrop-blur-sm z-40 transition-all duration-300 ${
+        className={`fixed inset-0 bg-black/70 z-40 transition-all duration-300 ${
           openCart ? "opacity-100 visible" : "opacity-0 invisible"
         }`}
       />
 
       <div
-        className={`fixed top-0 right-0 h-full w-full sm:w-[430px] bg-white shadow-[0_25px_80px_rgba(0,0,0,0.25)] transform ${
+        className={`fixed right-0 top-0 h-full w-full sm:w-[430px] bg-white ${
           openCart ? "translate-x-0" : "translate-x-full"
         } transition-all duration-500 z-50 flex flex-col`}
       >
-        <div className="px-7 py-6 border-b border-gray-100 flex justify-between items-center">
+        <div className="flex items-center justify-between border-b border-gray-100 px-7 py-6">
           <h2 className="text-xl font-semibold tracking-tight flex items-center gap-2">
             <ShoppingBag size={18} />
             Carrito
@@ -40,7 +40,7 @@ const Cart = () => {
 
           <button
             onClick={() => setOpenCart(false)}
-            className="text-gray-400 hover:text-black transition text-lg"
+            className="text-lg text-gray-400 transition hover:text-black"
           >
             ✕
           </button>
@@ -62,7 +62,7 @@ const Cart = () => {
 
               <button
                 onClick={() => setOpenCart(false)}
-                className="mt-7 px-7 py-3 border rounded-full text-sm hover:bg-black hover:text-white transition"
+                className="mt-7 rounded-full border px-7 py-3 text-sm transition"
               >
                 Explorar productos
               </button>
@@ -72,14 +72,14 @@ const Cart = () => {
           {carrito.map((p, i) => (
             <div
               key={i}
-              className="group rounded-3xl border border-gray-100 p-4 hover:shadow-md transition-all duration-300"
+              className="rounded-3xl border border-gray-100 p-4"
             >
               <div className="flex gap-4">
 
                 <div className="w-24 h-24 rounded-2xl overflow-hidden flex items-center justify-center bg-white">
                   <img
                     src={`/assets/${p.imagen}`}
-                    className="w-full h-full object-contain p-2 transition duration-300 group-hover:scale-105"
+                    className="w-full h-full object-contain p-2"
                     alt={p.nombre}
                   />
                 </div>
@@ -111,21 +111,21 @@ const Cart = () => {
 
                   <div className="flex items-center justify-between mt-4">
 
-                    <div className="flex items-center bg-gray-50 rounded-full px-2 py-1 gap-2 border">
+                    <div className="flex items-center gap-2 rounded-full border bg-gray-50 px-2 py-1">
                       <button
                         onClick={() => actualizarCantidad(i, p.cantidad - 1)}
-                        className="w-7 h-7 rounded-full flex items-center justify-center hover:bg-white transition"
+                        className="flex h-7 w-7 items-center justify-center rounded-full transition hover:bg-white"
                       >
                         <Minus size={13} />
                       </button>
 
-                      <span className="text-sm font-medium w-5 text-center">
+                      <span className="w-5 text-center text-sm font-medium">
                         {p.cantidad}
                       </span>
 
                       <button
                         onClick={() => actualizarCantidad(i, p.cantidad + 1)}
-                        className="w-7 h-7 rounded-full flex items-center justify-center hover:bg-white transition"
+                        className="flex h-7 w-7 items-center justify-center rounded-full transition hover:bg-white"
                       >
                         <Plus size={13} />
                       </button>
@@ -142,7 +142,7 @@ const Cart = () => {
           ))}
         </div>
 
-        <div className="px-7 py-6 border-t border-gray-100 bg-white">
+        <div className="border-t border-gray-100 px-7 py-6">
 
           <div className="bg-gray-50 rounded-3xl p-5">
 
@@ -160,14 +160,14 @@ const Cart = () => {
               setOpenCart(false);
               navigate("/checkout");
             }}
-            className="w-full bg-black text-white py-4 rounded-full font-medium hover:bg-gray-900 active:scale-[0.98] transition disabled:bg-gray-300"
+            className="w-full rounded-full bg-black py-4 font-medium text-white transition hover:bg-neutral-800 disabled:bg-gray-300"
           >
             Finalizar compra
           </button>
 
           <button
             onClick={() => setOpenCart(false)}
-            className="w-full text-sm text-gray-500 hover:text-black transition mt-4"
+            className="mt-4 w-full text-sm text-gray-500 transition hover:text-black"
           >
             Seguir comprando
           </button>

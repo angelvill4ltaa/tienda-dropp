@@ -1,4 +1,4 @@
-import { ShoppingCart, Search, Menu, X, ChevronDown, User2, Package, LogOut} from "lucide-react";
+import { ShoppingCart, Search, Menu, X, ChevronDown, LogOut } from "lucide-react";
 import { useStore } from "../context/StoreContext";
 import { useAuth } from "../context/AuthContext";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -23,104 +23,46 @@ const Navbar = () => {
 
   const handleLogout = () => {
   Swal.fire({
-    html: `
-      <div style="
-        display:flex;
-        flex-direction:column;
-        align-items:center;
-        text-align:center;
-        padding-top:0;">
-
-      <h2 style="
-        font-size:30px;
-        font-weight:700;
-        color:#111;
-        margin:0;
-        letter-spacing:-0.04em;">
-        Cerrar sesión
-      </h2>
-      <p style="
-        margin-top:14px;
-        font-size:15px;
-        line-height:1.7;
-        color:#6b7280;
-        max-width:320px;">
-        Tu sesión actual se cerrará.
-      </p>
-      </div>
-    `,
+    title: "Cerrar sesión",
+    text: "Tu sesión actual se cerrará.",
 
     showCancelButton: true,
-
     confirmButtonText: "Cerrar sesión",
     cancelButtonText: "Cancelar",
 
     reverseButtons: true,
     buttonsStyling: false,
 
-    width: "460px",
-    padding: "2.5rem 2.2rem 2rem",
-    borderRadius: "32px",
-    background: "#fff",
-
     customClass: {
       popup: "swal2-premium-popup",
       confirmButton: "swal2-premium-confirm",
       cancelButton: "swal2-premium-cancel",
-      actions: "swal2-premium-actions"
+      actions: "swal2-premium-actions",
     },
-
   }).then((result) => {
-    if (result.isConfirmed) {
-      logout();
+    if (!result.isConfirmed) return;
 
-      Swal.fire({
-        icon: "success",
+    logout();
 
-        html: `
-          <div style="padding-top:6px;">
-            <h2 style="
-              font-size:28px;
-              font-weight:700;
-              color:#111;
-              margin:0;
-              letter-spacing:-0.04em;">
-              Sesión cerrada
-            </h2>
-            <p style="
-              margin-top:12px;
-              font-size:14px;
-              color:#6b7280;
-              line-height:1.7;">
-              Has salido correctamente de tu cuenta.
-            </p>
-          </div>
-        `,
+    Swal.fire({
+      title: "Sesión cerrada",
+      text: "Has salido correctamente de tu cuenta.",
+      icon: "success",
 
-        confirmButtonText: "Continuar",
+      confirmButtonText: "Continuar",
+      buttonsStyling: false,
 
-        buttonsStyling: false,
-
-        width: "430px",
-        padding: "2.2rem 2rem 1.8rem",
-        borderRadius: "30px",
-
-        customClass: {
-          popup: "swal2-premium-popup",
-          confirmButton: "swal2-premium-confirm",
-        },
-
-      }).then(() => {
-        navigate("/");
-      });
-    }
+      customClass: {
+        popup: "swal2-premium-popup",
+        confirmButton: "swal2-premium-confirm",
+      },
+    }).then(() => navigate("/"));
   });
 };
 
   useEffect(() => {
     const onScroll = () => {
-      const shouldScroll = window.scrollY > 8;
-      setScrolled((prev) => (prev !== shouldScroll ? shouldScroll : prev));
+      setScrolled(window.scrollY > 8);
     };
 
     window.addEventListener("scroll", onScroll);
@@ -148,21 +90,21 @@ const Navbar = () => {
   return (
     <>
       <header
-        className={`sticky top-0 z-50  transition-all duration-500 ${
+        className={`sticky top-0 z-50 transition duration-500 ${
           scrolled
-            ? "bg-white/80 backdrop-blur-xl border-b border-[#f3f3f3] h-[68px]"
+            ? "bg-white/80 backdrop-blur-xl border-b border-gray-100 h-[68px]"
             : "bg-white h-[76px]"
         }`}
       >
-        <div className="flex items-center justify-between px-6 md:px-14 h-full">
+        <div className="flex h-full items-center justify-between px-6 md:px-14">
 
-          <Link to="/" className="group z-50">
+          <Link to="/" className="z-50">
             <img
               src="/assets/logo.png"
               alt="logo"
               className={`object-contain transition-all duration-500 ${
-                scrolled ? "w-12 h-8" : "w-[62px] h-11"
-              } group-hover:scale-[1.02]`}
+                scrolled ? "h-8 w-12" : "h-11 w-[62px]"
+              }`}
             />
           </Link>
 
@@ -207,12 +149,12 @@ const Navbar = () => {
 
             <button
               onClick={() => setOpenCart(true)}
-              className="relative w-[42px] h-[42px] rounded-full hover:bg-[#f6f6f6] flex items-center justify-center transition-all duration-300 mr-3"
+              className="relative w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center transition-all duration-300 mr-3"
             >
               <ShoppingCart size={20} />
 
               {carrito.length > 0 && (
-                <span className="absolute top-[7px] right-[7px] min-w-[16px] h-[16px] px-1 rounded-full bg-black text-white text-[9px] flex items-center justify-center font-medium">
+                <span className="absolute top-[7px] right-[7px] min-w-4 h-4 px-1 rounded-full bg-black text-white text-[9px] flex items-center justify-center">
                   {carrito.length}
                 </span>
               )}
@@ -222,7 +164,7 @@ const Navbar = () => {
               <div ref={profileRef} className="hidden md:block relative">
                 <button
                   onClick={() => setProfileOpen(!profileOpen)}
-                  className="flex items-center gap-2.5  px-2 py-2 rounded-full transition-all duration-300 hover:bg-[#f8f8f8]"
+                  className="flex items-center gap-2.5 rounded-full px-2 py-2 transition hover:bg-gray-100"
                 >
                   <div className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center text-[11px] font-semibold uppercase">
                     {user.nombre?.charAt(0)}
@@ -241,7 +183,7 @@ const Navbar = () => {
                 </button>
 
                 {profileOpen && (
-                  <div className="absolute right-0 mt-3 w-64 bg-white border border-gray-100 rounded-[28px] shadow-[0_22px_55px_rgba(0,0,0,0.09)] p-3 z-50 animate-[fadeIn_.25s_ease]">
+                  <div className="absolute right-0 z-50 mt-3 w-64 animate-[fadeIn_.25s_ease] rounded-[28px] border border-gray-100 bg-white p-3">
 
                     <div className="px-3 py-3 border-b border-gray-100 flex items-center gap-3">
                       <div className="w-11 h-11 rounded-full bg-black text-white flex items-center justify-center text-sm font-bold uppercase">
@@ -273,15 +215,14 @@ const Navbar = () => {
             ) : (
               <button
                 onClick={() => navigate("/auth")}
-                className="hidden md:flex items-center h-10 px-5 rounded-full border border-gray-200 text-sm font-medium text-gray-700 hover:border-black hover:text-black transition-all duration-300"
+                className="hidden h-10 items-center rounded-full border border-gray-200 px-5 text-sm font-medium text-gray-700 md:flex"
               >
                 Iniciar sesión
               </button>
             )}
 
-            {/* MOBILE BUTTON */}
             <button
-              className="md:hidden w-10 h-10 flex items-center justify-center"
+              className="flex h-10 w-10 items-center justify-center md:hidden"
               onClick={() => setMenuOpen(!menuOpen)}
             >
               {menuOpen ? <X /> : <Menu />}
@@ -289,7 +230,6 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* MOBILE MENU */}
         {menuOpen && (
           <div className="md:hidden border-t bg-white px-5 py-6 space-y-6 animate-[fadeIn_.25s_ease]">
 

@@ -10,12 +10,10 @@ export const StoreProvider = ({ children }) => {
   });
   const [openCart, setOpenCart] = useState(false);
 
-  // 🔥 guardar en localStorage
   useEffect(() => {
     localStorage.setItem("carrito", JSON.stringify(carrito));
   }, [carrito]);
 
-  // 🔥 AGREGAR (con cantidad)
   const agregarAlCarrito = (producto) => {
     setCarrito((prev) => {
       const existe = prev.find((p) => p.id === producto.id);
@@ -38,12 +36,10 @@ export const StoreProvider = ({ children }) => {
   setCarrito([]);
 };
 
-  // 🔥 ELIMINAR
   const eliminarDelCarrito = (index) => {
     setCarrito((prev) => prev.filter((_, i) => i !== index));
   };
 
-  // 🔥 ACTUALIZAR CANTIDAD
   const actualizarCantidad = (index, cantidad) => {
     if (cantidad < 1) return;
 

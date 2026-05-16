@@ -29,7 +29,7 @@ function App() {
 
         <Routes>
 
-          {/* Rutas con Navbar */}
+          {/* Con Navbar */}
           <Route element={<MainLayout />}>
             <Route path="/" element={<Home />} />
             <Route path="/zapatillas" element={<Zapatillas />} />
@@ -39,7 +39,7 @@ function App() {
             <Route path="/search" element={<Search />} />
           </Route>
 
-          {/* Rutas sin Navbar */}
+          {/* Sin Navbar */}
           <Route path="/reclamaciones" element={<LibroReclamaciones />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/orden-exitosa/:id" element={<OrderSuccess />} />

@@ -77,7 +77,7 @@ const ProductDetail = () => {
 
           {loading && (
             <div className="animate-pulse grid md:grid-cols-2 gap-20">
-              <div className="h-[620px] bg-gray-100 rounded-[32px]"></div>
+              <div className="h-[560px] bg-gray-100 rounded-3xl"></div>
               <div className="space-y-5">
                 <div className="h-6 bg-gray-100 w-2/3 rounded"></div>
                 <div className="h-5 bg-gray-100 w-full rounded"></div>
@@ -94,11 +94,10 @@ const ProductDetail = () => {
 
           {!loading && !error && producto && (
             <>
-              <div className="grid md:grid-cols-2 gap-20 lg:gap-28">
+              <div className="grid md:grid-cols-2 gap-20">
 
-                {/* IMAGEN */}
                 <div>
-                  <div className="relative rounded-[34px] overflow-hidden border border-gray-100 bg-white shadow-[0_10px_35px_rgba(0,0,0,0.04)]">
+                  <div className="relative rounded-3xl overflow-hidden border border-gray-100 bg-white">
                     <img
                       src={`/assets/${selectedImage}`}
                       alt={producto.nombre}
@@ -132,10 +131,9 @@ const ProductDetail = () => {
                   </div>
                 </div>
 
-                {/* INFO */}
                 <div className="pt-2">
 
-                  <p className="text-[11px] uppercase tracking-[0.24em] text-gray-400 font-semibold mb-4">
+                  <p className="text-[11px] uppercase tracking-[0.20em] text-gray-400 font-semibold mb-4">
                     DROPP 
                   </p>
 
@@ -196,16 +194,15 @@ const ProductDetail = () => {
 
                   <button
                     onClick={handleAddToCart}
-                    className="w-full bg-black text-white py-4 rounded-full font-semibold tracking-wide hover:bg-gray-900 transition"
+                    className="w-full bg-black text-white py-4 rounded-full font-semibold hover:bg-gray-900"
                   >
                     {added ? "Producto agregado ✓" : "Agregar al carrito"}
                   </button>
 
-                 <div className="mt-5 gap-2 px-4 py-2 text-sm text-gray-700">
+                 <div className="mt-5 px-4 py-2 text-sm text-gray-700">
                    🚚 Delivery gratis por compras desde <span className="font-semibold text-black">S/500</span>
                  </div>
 
-                  {/* BENEFICIOS */}
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8">
 
                     <div className="border border-gray-200 rounded-2xl px-4 py-4 flex items-center gap-3">
@@ -234,7 +231,6 @@ const ProductDetail = () => {
 
                   </div>
 
-                  {/* DESCRIPCION */}
                   <div className="mt-12 border-t border-gray-100 pt-8">
                     <h3 className="font-semibold text-black mb-4">
                       Descripción del producto
@@ -253,32 +249,31 @@ const ProductDetail = () => {
                 </div>
               </div>
 
-              {/* RELACIONADOS */}
               {relacionados.length > 0 && (
                 <section className="mt-28">
                   <div className="flex justify-between items-center mb-8">
                     <h2 className="text-3xl font-bold">También te puede interesar</h2>
 
-                    <div className="flex gap-2">
+                    <div className="hidden gap-2 md:flex">
                       <button
                         onClick={() => scroll("left")}
-                        className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:border-black transition"
+                        className="flex h-12 w-12 items-center justify-center rounded-full bg-neutral-100 hover:bg-neutral-200"
                       >
-                        <ChevronLeft size={18} />
+                        <ChevronLeft size={20} strokeWidth={2.2} />
                       </button>
 
                       <button
                         onClick={() => scroll("right")}
-                        className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:border-black transition"
+                        className="flex h-12 w-12 items-center justify-center rounded-full bg-neutral-100 hover:bg-neutral-200"
                       >
-                        <ChevronRight size={18} />
+                        <ChevronRight size={20} strokeWidth={2.2}/>
                       </button>
                     </div>
                   </div>
 
                   <div
                     ref={sliderRef}
-                    className="flex gap-6 overflow-x-auto scroll-smooth no-scrollbar"
+                    className="flex gap-6 overflow-hidden scroll-smooth"
                   >
                     {relacionados.map((p) => (
                       <div key={p.id} className="min-w-[270px]">

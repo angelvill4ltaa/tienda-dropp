@@ -1,8 +1,9 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import ProductCard from "../components/productCard";
 import Footer from "../components/Footer";
 import { getProductos } from "../services/api";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const Search = () => {
   const [productos, setProductos] = useState([]);
@@ -11,9 +12,16 @@ const Search = () => {
   const [sort, setSort] = useState("relevancia");
   const [activeCat, setActiveCat] = useState(null);
 
+  const [page, setPage] = useState(1);
+
+  const perPage = 18;
+
+  const sliderRef = useRef(null);
+
   const location = useLocation();
+
   const query =
-    new URLSearchParams(location.search).get("q") || "";
+    new URLSearchParams(location.search).get("q") ?? "";
 
   useEffect(() => {
     setLoading(true);
@@ -23,116 +31,147 @@ const Search = () => {
       .finally(() => setLoading(false));
   }, []);
 
-  const relacionados = productos.slice(0, 8);
+  const relacionados = productos.slice(0, 6);
 
-  const resultadosBusqueda = useMemo(() => {
-    if (!query) return [];
+  const resultadosBusqueda = !query
+    ? []
+    : productos.filter((p) => {
+        const text = `
+          ${p.nombre} 
+          ${p.categoria || ""} 
+          ${p.descripcion || ""}
+          `.toLowerCase();
 
-    return productos.filter((p) => {
-      const text =
-        `${p.nombre} ${p.categoria || ""} ${
-          p.descripcion || ""
-        }`.toLowerCase();
+        return text.includes(query.toLowerCase());
+      });
 
-      return text.includes(query.toLowerCase());
-    });
-  }, [productos, query]);
+  const filtrados = [...resultadosBusqueda];
 
-  const filtrados = useMemo(() => {
-    let result = [...resultadosBusqueda];
+  if (activeCat) {
+    filtrados = filtrados.filter(
+      (p) =>
+        (p.categoria || "").toLowerCase() ===
+        activeCat.toLowerCase()
+    );
+  }
 
-    if (activeCat) {
-      result = result.filter(
-        (p) =>
-          (p.categoria || "").toLowerCase() ===
-          activeCat.toLowerCase()
+  switch (sort) {
+    case "precio-asc":
+      filtrados.sort(
+        (a, b) => a.precio - b.precio
       );
-    }
+      break;
 
-    switch (sort) {
-      case "precio-asc":
-        result.sort((a, b) => a.precio - b.precio);
-        break;
+    case "precio-desc":
+      filtrados.sort(
+        (a, b) => b.precio - a.precio
+      );
+      break;
 
-      case "precio-desc":
-        result.sort((a, b) => b.precio - a.precio);
-        break;
+    case "nombre":
+      filtrados.sort((a, b) =>
+        a.nombre.localeCompare(b.nombre)
+      );
+      break;
 
-      case "nombre":
-        result.sort((a, b) =>
-          a.nombre.localeCompare(b.nombre)
-        );
-        break;
+    default:
+      break;
+  }
 
-      default:
-        break;
-    }
+  const totalPages = Math.ceil(
+    filtrados.length / perPage
+  );
 
-    return result;
-  }, [resultadosBusqueda, sort, activeCat]);
+  const start = (page - 1) * perPage;
+
+  const currentProducts = filtrados.slice(
+    start,
+    start + perPage
+  );
+
+  useEffect(() => {
+    setPage(1);
+  }, [sort, activeCat, query]);
+
+  const scroll = (dir) => {
+    if (!sliderRef.current) return;
+
+    sliderRef.current.scrollBy({
+      left: dir === "left" ? -320 : 320,
+      behavior: "smooth",
+    });
+  };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
-      <main className="flex-grow px-6 md:px-12 py-10 md:py-14">
-        <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen flex flex-col bg-gray-50">
+
+      <section className="w-full border-b bg-white">
+
+        <div className="max-w-[1700px] mx-auto px-5 md:px-16 pt-5 pb-4">
 
           {resultadosBusqueda.length > 0 && (
             <>
-              <div className="mb-10 md:mb-12">
-                <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-5">
+              <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
 
-                  <div>
-                    <h1 className="text-[32px] md:text-[40px] font-black tracking-[-0.04em] leading-none text-[#111]">
-                      {query ? (
-                        <>
-                          Resultados para{" "}
-                          <span className="font-medium text-gray-400">
-                            "{query}"
-                          </span>
-                        </>
-                      ) : (
-                        "Todos los productos"
-                      )}
-                    </h1>
-                  </div>
+                <div>
+
+                  <h1 className="text-[34px] md:text-[42px] leading-none font-bold">
+
+                    {query ? (
+                      <>
+                        Resultados para{" "}
+                        <span className="text-black/40">
+                          "{query}"
+                        </span>
+                      </>
+                    ) : (
+                      "Todos los productos"
+                    )}
+
+                  </h1>
 
                   {!loading && (
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm text-gray-500 font-medium">
-                        {filtrados.length} productos encontrados
-                      </span>
-                    </div>
+                    <p className="text-sm text-black/40 mt-2 font-medium">
+                      {filtrados.length} productos
+                      encontrados
+                    </p>
                   )}
 
                 </div>
-              </div>
 
-              <div className="flex flex-wrap gap-3 mb-14 items-center">
+                <div className="flex flex-wrap items-center gap-3">
 
-                <select
-                  value={sort}
-                  onChange={(e) => setSort(e.target.value)}
-                  className="h-11 px-5 rounded-full text-sm font-medium border border-gray-200 outline-none"
-                >
-                  <option value="relevancia">
-                    Relevancia
-                  </option>
+                  <select
+                    value={sort}
+                    onChange={(e) =>
+                      setSort(e.target.value)
+                    }
+                    className="h-11 cursor-pointer rounded-full border border-black/10 bg-white px-5 pr-11 text-sm font-medium outline-none"
+                  >
 
-                  <option value="precio-asc">
-                    Precio ↑
-                  </option>
+                    <option value="relevancia">
+                      Relevancia
+                    </option>
 
-                  <option value="precio-desc">
-                    Precio ↓
-                  </option>
+                    <option value="precio-asc">
+                      Precio ↑
+                    </option>
 
-                  <option value="nombre">
-                    Nombre A-Z
-                  </option>
-                </select>
+                    <option value="precio-desc">
+                      Precio ↓
+                    </option>
 
-                {["Zapatillas", "Ropa", "Accesorios"].map(
-                  (cat) => {
+                    <option value="nombre">
+                      Nombre A-Z
+                    </option>
+
+                  </select>
+
+                  {[
+                    "Zapatillas",
+                    "Ropa",
+                    "Accesorios",
+                  ].map((cat) => {
                     const active = activeCat === cat;
 
                     return (
@@ -143,108 +182,206 @@ const Search = () => {
                             active ? null : cat
                           )
                         }
-                        className={`h-11 px-5 rounded-full text-sm font-medium transition-all duration-300 border
+                        className={`h-11 rounded-full border px-5 text-sm font-medium transition-all
                         ${
                           active
-                            ? "bg-black text-white border-black shadow-[0_10px_24px_rgba(0,0,0,0.18)] scale-[1.03]"
-                            : "bg-white text-gray-700 border-gray-200 hover:border-black hover:text-black"
+                            ? "bg-black text-white border-black"
+                            : "bg-white border-black/10"
                         }`}
                       >
                         {cat}
                       </button>
                     );
-                  }
-                )}
+                  })}
+
+                </div>
 
               </div>
+
             </>
           )}
 
-          {!loading && resultadosBusqueda.length === 0 && (
+        </div>
+
+      </section>
+
+      <main className="w-full max-w-[1700px] mx-auto px-8 md:px-24 pt-6 pb-24">
+
+        {!loading &&
+          resultadosBusqueda.length === 0 && (
             <div className="pt-14 pb-24">
 
               <div className="text-center mb-16">
+
                 <h2 className="text-2xl font-semibold mb-2">
                   Sin resultados
                 </h2>
 
-                <p className="text-gray-400 text-sm max-w-md mx-auto leading-relaxed">
-                  No encontramos productos relacionados con{" "}
+                <p className="text-gray-400 text-sm max-w-md mx-auto">
+                  No encontramos productos
+                  relacionados con{" "}
                   <span className="text-black font-medium">
                     "{query}"
                   </span>
                 </p>
+
               </div>
 
               {relacionados.length > 0 && (
                 <section>
 
                   <div className="flex justify-between items-center mb-6">
+
                     <h3 className="text-lg font-medium">
-                      Estos productos podrían interesarte
+                      Estos productos podrían
+                      interesarte
                     </h3>
+
+                    <div className="hidden gap-2 md:flex">
+
+                      <button
+                        onClick={() =>
+                          scroll("left")
+                        }
+                        className="flex h-12 w-12 items-center justify-center rounded-full bg-neutral-100 hover:bg-neutral-200"
+                      >
+                        <ChevronLeft
+                          size={20}
+                          strokeWidth={2.2}
+                        />
+                      </button>
+
+                      <button
+                        onClick={() =>
+                          scroll("right")
+                        }
+                        className="flex h-12 w-12 items-center justify-center rounded-full bg-neutral-100 hover:bg-neutral-200"
+                      >
+                        <ChevronRight
+                          size={20}
+                          strokeWidth={2.2}
+                        />
+                      </button>
+
+                    </div>
+
                   </div>
 
-                  <div className="flex gap-5 overflow-x-auto pb-2 scrollbar-hide">
+                  <div
+                    ref={sliderRef}
+                    className="flex gap-5 overflow-hidden"
+                  >
 
                     {relacionados.map((p) => (
                       <div
                         key={p.id}
-                        className="min-w-[220px] max-w-[220px]"
+                        className="min-w-[220px] max-w-[220px] overflow-hidden rounded-2xl border border-black/10 bg-white"
                       >
-                        <ProductCard producto={p} />
+                        <ProductCard
+                          producto={p}
+                        />
                       </div>
                     ))}
 
                   </div>
+
                 </section>
               )}
 
             </div>
           )}
 
-          {loading && (
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        {loading && (
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-10">
 
-              {Array(8)
-                .fill(0)
-                .map((_, i) => (
-                  <div
-                    key={i}
-                    className="bg-white rounded-[30px] overflow-hidden border border-gray-100 animate-pulse"
-                  >
-                    <div className="h-[280px] bg-[#f3f3f3]" />
+            {Array(6)
+              .fill(0)
+              .map((_, i) => (
+                <div
+                  key={i}
+                  className="overflow-hidden rounded-3xl border border-gray-100 bg-white animate-pulse"
+                >
+                  <div className="h-[280px] bg-gray-100" />
 
-                    <div className="p-5">
-                      <div className="h-2 w-14 rounded-full bg-[#f0f0f0] mb-4" />
+                  <div className="space-y-4 p-5">
 
-                      <div className="space-y-2 mb-5">
-                        <div className="h-4 rounded-full bg-[#f0f0f0] w-[85%]" />
+                    <div className="h-2 w-14 rounded-full bg-gray-100" />
 
-                        <div className="h-4 rounded-full bg-[#f0f0f0] w-[60%]" />
-                      </div>
-
-                      <div className="h-5 rounded-full bg-[#f0f0f0] w-20" />
+                    <div className="space-y-2">
+                      <div className="h-4 w-[85%] rounded-full bg-gray-100" />
+                      <div className="h-4 w-[60%] rounded-full bg-gray-100" />
                     </div>
+
+                    <div className="h-5 w-20 rounded-full bg-gray-100" />
+
                   </div>
-                ))}
 
-            </div>
-          )}
-
-          {!loading && filtrados.length > 0 && (
-            <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-10 animate-[fadeIn_.35s_ease] transition-all duration-300">
-
-              {filtrados.map((p) => (
-                <ProductCard key={p.id} producto={p} />
+                </div>
               ))}
-            </div>
-          )}
 
-        </div>
+          </div>
+        )}
+
+        {!loading && currentProducts.length > 0 && (
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-6">
+
+              {currentProducts.map((p) => (
+                <div
+                  key={p.id}
+                  className="overflow-hidden rounded-2xl border border-black/10 bg-white"
+                >
+                  <ProductCard producto={p} />
+                </div>
+              ))}
+
+            </div>
+
+            {totalPages > 1 && (
+
+  <nav className="mt-24 flex items-center justify-center">
+
+    <div className="flex items-center gap-4 rounded-full border border-black/10 bg-white px-4 py-3">
+
+      <button
+        disabled={page === 1}
+        onClick={() => setPage(page - 1)}
+        className="flex h-11 w-11 items-center justify-center"
+      >
+        <ChevronLeft
+          size={20}
+          strokeWidth={2.2}
+        />
+      </button>
+
+      <div className="min-w-[60px] text-center text-sm font-semibold tracking-[0.2em] text-black/50">
+        {page} / {totalPages}
+      </div>
+
+      <button
+        disabled={page === totalPages}
+        onClick={() => setPage(page + 1)}
+        className="flex h-11 w-11 items-center justify-center"
+      >
+        <ChevronRight
+          size={20}
+          strokeWidth={2.2}
+        />
+      </button>
+
+    </div>
+
+  </nav>
+
+)}
+
+          </>
+        )}
+
       </main>
 
       <Footer />
+
     </div>
   );
 };

@@ -6,21 +6,20 @@ const ProductCard = ({ producto }) => {
   return (
     <div
       onClick={() => navigate(`/producto/${producto.id}`)}
-      className="cursor-pointer group"
+      className="group overflow-hidden rounded-3xl border border-gray-100"
     >
-      <div className="rounded-3xl overflow-hidden bg-white border border-gray-100 shadow-[0_10px_28px_rgba(0,0,0,0.045)] hover:shadow-[0_16px_38px_rgba(0,0,0,0.07)] transition duration-300">
 
-        <div className="relative h-72 bg-[#fafafa] flex items-center justify-center overflow-hidden">
+        <div className="relative flex h-72 items-center justify-center overflow-hidden bg-gray-50">
 
-          <div className="w-[76%] h-[76%] flex items-center justify-center">
+          <div className="h-[76%] w-[76%]">
             <img
               src={`/assets/${producto.imagen}`}
               alt={producto.nombre}
-              className="w-full h-full object-contain group-hover:scale-[1.035] transition-transform duration-700"
+              className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-[1.035]"
             />
           </div>
 
-          <span className="absolute top-4 left-4 bg-black text-white text-[9px] font-semibold px-3 py-1 rounded-full tracking-[0.20em]">
+          <span className="absolute top-4 left-4 bg-black px-3 py-1 text-white text-[9px] font-semibold rounded-full tracking-[0.18em]">
             Nuevo
           </span>
         </div>
@@ -31,12 +30,12 @@ const ProductCard = ({ producto }) => {
             DROPP
           </p>
 
-          <h3 className="font-medium text-[16px] leading-snug line-clamp-2 min-h-[30px] text-gray-800">
+          <h3 className="line-clamp-2 text-[16px] font-medium text-gray-800">
             {producto.nombre}
           </h3>
 
           <div className="mt-2 flex items-center justify-between">
-            <p className="text-[20px] font-black  tracking-tight">
+            <p className="text-[20px] font-medium">
               S/ {producto.precio}
             </p>
 
@@ -45,7 +44,6 @@ const ProductCard = ({ producto }) => {
             </span>
           </div>
         </div>
-      </div>
     </div>
   );
 };

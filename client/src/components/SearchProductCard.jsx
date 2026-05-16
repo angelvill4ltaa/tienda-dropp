@@ -37,7 +37,7 @@ const SearchProductCard = ({ producto, onClick }) => {
           </h3>
 
           <div className="mt-2 flex items-center justify-between">
-            <p className="text-[20px] font-black tracking-tight">
+            <p className="text-[20px] font-medium tracking-tight">
               S/ {producto.precio}
             </p>
           </div>

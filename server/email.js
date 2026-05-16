@@ -16,7 +16,6 @@ const getResetPassword = (link) => {
       box-shadow:0 18px 50px rgba(0,0,0,0.08);
     ">
 
-      <!-- HEADER -->
       <div style="
         background:#000000;
         padding:38px 30px 34px;
@@ -55,7 +54,6 @@ const getResetPassword = (link) => {
         </p>
       </div>
 
-      <!-- BODY -->
       <div style="
         padding:55px 48px 50px;
         text-align:center;
@@ -162,7 +160,6 @@ const getResetPassword = (link) => {
         </div>
       </div>
 
-      <!-- FOOTER -->
       <div style="
         background:#fafafa;
         padding:22px;

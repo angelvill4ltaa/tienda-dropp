@@ -1,45 +1,49 @@
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Autoplay } from "swiper/modules";
+import { useRef } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+
 import "swiper/css";
 
-import { Navigation, Autoplay } from "swiper/modules";
 import ProductCard from "./productCard";
-import { useRef } from "react";
 
 const FeaturedProducts = ({ productos }) => {
   const prevRef = useRef(null);
   const nextRef = useRef(null);
 
   return (
-    <section className="max-w-7xl mx-auto px-4 md:px-0 py-16 relative">
+    <section className="mx-auto max-w-7xl py-16">
 
-      <div className="flex justify-between items-center mb-10">
-        <div>
-          <h2 className="text-3xl md:text-4xl font-bold">
-            Lo más vendido
-          </h2>
-        </div>
+      <div className="mb-10 flex items-center justify-between">
 
-        <div className="hidden md:flex gap-2">
+        <h2 className="text-3xl font-bold md:text-4xl">
+          Lo más vendido
+        </h2>
+
+        <div className="hidden gap-2 md:flex">
+
           <button
             ref={prevRef}
-            className="w-11 h-11 rounded-full border border-gray-300 bg-white flex items-center justify-center hover:bg-black hover:text-white hover:border-black transition"
+            className="flex h-12 w-12 items-center justify-center rounded-full bg-neutral-100 transition hover:bg-neutral-200"
           >
-            ←
+            <ChevronLeft size={20} strokeWidth={2.2} />
           </button>
+
           <button
             ref={nextRef}
-            className="w-11 h-11 rounded-full border border-gray-300 bg-white flex items-center justify-center hover:bg-black hover:text-white hover:border-black transition"
+            className="flex h-12 w-12 items-center justify-center rounded-full bg-neutral-100 transition hover:bg-neutral-200"
           >
-            →
+            <ChevronRight size={20} strokeWidth={2.2} />
           </button>
+
         </div>
+
       </div>
- 
+
       <Swiper
         modules={[Navigation, Autoplay]}
-        spaceBetween={24}
-        slidesPerView={1}
-        loop={true}
+        loop
+        spaceBetween={20}
         autoplay={{
           delay: 3000,
           disableOnInteraction: false,
@@ -56,13 +60,13 @@ const FeaturedProducts = ({ productos }) => {
           1280: { slidesPerView: 4 },
         }}
       >
+
         {productos.map((p) => (
           <SwiperSlide key={p.id}>
-            <div className="h-full">
-              <ProductCard producto={p} />
-            </div>
+            <ProductCard producto={p} />
           </SwiperSlide>
         ))}
+
       </Swiper>
 
     </section>

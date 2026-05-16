@@ -1,4 +1,4 @@
-import { Mail, Phone, MapPin, ArrowRight } from "lucide-react";
+import { Mail, Phone, MapPin } from "lucide-react";
 import { FaFacebookF, FaInstagram, FaTwitter } from "react-icons/fa";
 import { SiVisa, SiMastercard } from "react-icons/si";
 import { useNavigate } from "react-router-dom";
@@ -23,29 +23,25 @@ const Footer = () => {
   return (
     <footer className="bg-black text-gray-400 mt-24">
 
-      <div className="max-w-7xl mx-auto px-6 md:px-12 py-16 grid grid-cols-1 md:grid-cols-4 gap-12">
+      <div className="max-w-7xl mx-auto px-6 py-14 grid md:grid-cols-4 gap-12">
 
-        <div className="md:pr-8">
-          <h2 className="text-4xl font-black text-white tracking-tight mb-5">
+        <div>
+          <h2 className="text-3xl font-bold text-white mb-4">
             DROPP
           </h2>
 
-          <p className="text-sm text-gray-500 leading-7 max-w-xs">
-            Moda urbana diseñada para quienes entienden que vestir bien también es una actitud.
-          </p>
-
           <button
             onClick={() => navigate("/auth")}
-            className="mt-7 bg-white text-black px-6 py-3 rounded-full font-semibold transition flex items-center gap-2"
+            className="mt-6 bg-neutral-900 text-white border border-neutral-700 px-4 py-2.5 rounded-2xl text-sm font-medium"
           >
-            Únete a DROPP <ArrowRight size={15} />
+            Únete a DROPP 
           </button>
 
           <div className="flex gap-4 mt-7">
             {[FaFacebookF, FaInstagram, FaTwitter].map((Icon, i) => (
               <div
                 key={i}
-                className="w-10 h-10 rounded-full border border-gray-700 hover:border-white hover:text-white flex items-center justify-center cursor-pointer transition"
+                className="w-9 h-9 border border-gray-700 rounded-full flex items-center justify-center"
               >
                 <Icon size={14} />
               </div>
@@ -53,9 +49,8 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* EXPLORE */}
         <div>
-          <h3 className="text-white text-sm font-semibold uppercase tracking-[0.25em] mb-6">
+          <h3 className="text-white text-sm font-semibold mb-5">
             Explorar
           </h3>
 
@@ -64,7 +59,7 @@ const Footer = () => {
               <li
                 key={i}
                 onClick={() => navigate(item.path)}
-                className="cursor-pointer hover:text-white transition"
+                className="cursor-pointer"
               >
                 {item.label}
               </li>
@@ -72,9 +67,8 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* SUPPORT */}
         <div>
-          <h3 className="text-white text-sm font-semibold uppercase tracking-[0.25em] mb-6">
+          <h3 className="text-white text-sm font-semibold mb-5">
             Soporte
           </h3>
 
@@ -82,7 +76,7 @@ const Footer = () => {
             {supportLinks.map((item, i) => (
               <li
                 key={i}
-                className="cursor-pointer hover:text-white transition"
+                className="cursor-pointer"
               >
                 {item}
               </li>
@@ -91,40 +85,37 @@ const Footer = () => {
 
           <div
             onClick={() => navigate("/reclamaciones")}
-            className="mt-8 flex items-center border border-gray-800 hover:border-gray-600 rounded-2xl px-3 py-3 cursor-pointer transition group max-w-[240px]"
+            className="mt-6 flex items-center border border-gray-800 rounded-lg px-3 py-3 max-w-[230px]"
           >
             <div className="w-12 flex justify-center">
               <img
                 src="/assets/Libro.jpg"
                 alt="Libro"
-                className="h-10 object-contain opacity-80 group-hover:opacity-100 transition"
+                className="h-9 object-contain"
               />
             </div>
-
-            <div className="flex-1 text-center pr-2">
-              <p className="text-white text-sm font-medium leading-tight">
+   
+              <p className="text-white text-sm font-medium">
                 Libro de reclamaciones
-              </p>
-           </div>
+              </p>           
           </div>
         </div>
 
-        {/* CONTACT */}
         <div>
-          <h3 className="text-white text-sm font-semibold uppercase tracking-[0.25em] mb-6">
+          <h3 className="text-white text-sm font-semibold mb-5">
             Contacto
           </h3>
 
           <div className="space-y-4 text-sm">
-            <p className="flex items-center gap-3 hover:text-white transition">
+            <p className="flex items-center gap-3">
               <MapPin size={16} /> Lima, Perú
             </p>
 
-            <p className="flex items-center gap-3 hover:text-white transition">
+            <p className="flex items-center gap-3">
               <Phone size={16} /> +51 999 999 999
             </p>
 
-            <p className="flex items-center gap-3 hover:text-white transition">
+            <p className="flex items-center gap-3">
               <Mail size={16} /> dropp@tienda.com
             </p>
           </div>
@@ -134,13 +125,13 @@ const Footer = () => {
               Medios de pago
             </p>
 
-            <div className="flex items-center gap-5 text-gray-500">
-              <SiVisa className="text-3xl hover:text-white transition" />
-              <SiMastercard className="text-3xl hover:text-white transition" />
+            <div className="flex items-center gap-5">
+              <SiVisa className="text-3xl" />
+              <SiMastercard className="text-3xl" />
               <img
                 src="/assets/yape.png"
                 alt="Yape"
-                className="h-7 opacity-80 hover:opacity-100 transition"
+                className="h-6"
               />
             </div>
           </div>
@@ -149,7 +140,7 @@ const Footer = () => {
       </div>
 
       <div className="border-t border-gray-800 py-5">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-gray-500">
+        <div className="max-w-7xl mx-auto px-6 text-xs text-gray-500">
 
           <p>© {new Date().getFullYear()} DROPP — Todos los derechos reservados</p>
 
